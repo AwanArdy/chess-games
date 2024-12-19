@@ -31,3 +31,7 @@ body {
     background-color: #444;
 }
 
+.cell img {
+    width: 70%;
+    height: 70%;
+}
