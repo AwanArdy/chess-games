@@ -128,9 +128,35 @@ function getValidMoves(piece, row, col) {
     return moves;
 }
 
+// Menambah langkah linear (Rook, Bishop, Queen)
+function addLinearMoves(row, col, moves, isWhite, directions) {
+    directions.forEach(([dr, dc]) => {
+        let r = row + dr, c = col + dc;
+        while (isValidCell(r, c)) {
+            if (isSameTeam(r, c, isWhite)) break;
+            moves.push([r, c]);
+            if (isOpponentPiece(r, c, isWhite)) break;
+            r += dr;
+            c += dc;
+        }
+    });
+}
+
 // validasi sel
 function isValidCell(row, col) {
-    return row >= 0 && row < 8 && col >= 0 && col < 8 && !initialPieces[row][col]?.startsWith("w");
+    return row >= 0 && row < 8 && col >= 0 && col < 8;
+}
+
+// Apakah bidak lawan?
+function isOpponentPiece(row, col, isWhite) {
+    const piece = initialPieces[row]?.[col];
+    return piece && piece.startsWith(isWhite ? "b" : "w");
+}
+
+// Apakah bidak satu tim?
+function isSameTeam(row, col, isWhite) {
+    const piece = initialPieces[row]?.[col];
+    return piece && piece.startsWith(isWhite ? "w" : "b");
 }
 
 // Highlight langkah valid
@@ -156,6 +182,7 @@ function getCell(row, col) {
     return board.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
 }
 
+// Menangani klik pada cell
 function handleCellClick(cell) {
     const row = parseInt(cell.dataset.row);
     const col = parseInt(cell.dataset.col);
