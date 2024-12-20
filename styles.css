@@ -35,3 +35,9 @@ body {
     width: 70%;
     height: 70%;
 }
+
+.cell.valid-move {
+    outline: 3px solid #00ff00;
+    outline-offset: -2px;
+    cursor: pointer;
+}
